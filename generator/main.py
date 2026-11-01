@@ -7,6 +7,8 @@ from network import gen_network
 from radio import gen_radio
 from windows import gen_windows
 from incidents import gen_incidents
+from sites import gen_sites
+from chains import gen_chains
 
 def build_case(k):
     rng = random.Random(f"{SEED}-{k}")
@@ -23,8 +25,14 @@ def build_case(k):
     tables["radio_reports"] = rad["radio_reports"]
     tables["windows"] = gen_windows(k, rng, cid)
     tables["incidents"] = gen_incidents(k, rng, cid)
+    st = gen_sites(k, rng, cid)
+    tables["sites"] = st["sites"]
+    tables["tour"] = st["tour"]
+    ch = gen_chains(k, rng, cid)
+    tables["pipeline_dims"] = ch["pipeline_dims"]
+    tables["drum_prices"] = ch["drum_prices"]
     info = {"targets": net["targets"], "V": net["V"], "E": net["E"],
-            "edit_bound": rad["edit_bound"]}
+            "edit_bound": rad["edit_bound"], "tour_length": st["tour_length"]}
     return tables, info
 
 def main(out="cases.xlsx"):
