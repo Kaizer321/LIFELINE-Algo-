@@ -9,6 +9,9 @@ from windows import gen_windows
 from incidents import gen_incidents
 from sites import gen_sites
 from chains import gen_chains
+from sensors import gen_sensors
+from safety import gen_safety
+from rations import gen_rations
 
 def build_case(k):
     rng = random.Random(f"{SEED}-{k}")
@@ -31,8 +34,18 @@ def build_case(k):
     ch = gen_chains(k, rng, cid)
     tables["pipeline_dims"] = ch["pipeline_dims"]
     tables["drum_prices"] = ch["drum_prices"]
+    se = gen_sensors(k, rng, cid)
+    tables["sensor_edges"] = se["sensor_edges"]
+    tables["sensor_cover"] = se["sensor_cover"]
+    sf = gen_safety(k, rng, cid)
+    tables["safety_rules"] = sf["safety_rules"]
+    tables["safety_planted"] = sf["safety_planted"]
+    ra = gen_rations(k, rng, cid)
+    tables["rations"] = ra["rations"]
     info = {"targets": net["targets"], "V": net["V"], "E": net["E"],
-            "edit_bound": rad["edit_bound"], "tour_length": st["tour_length"]}
+            "edit_bound": rad["edit_bound"], "tour_length": st["tour_length"],
+            "sensor_nodes": se["sensor_nodes"], "sensor_k": se["sensor_k"],
+            "safety_vars": sf["safety_vars"], "rations_target": ra["rations_target"]}
     return tables, info
 
 def main(out="cases.xlsx"):
