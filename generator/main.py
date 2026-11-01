@@ -4,6 +4,7 @@ from openpyxl import Workbook
 from config import SEED, SHEETS, HEADERS, case_id
 from crates import gen_crates
 from network import gen_network
+from radio import gen_radio
 
 def build_case(k):
     rng = random.Random(f"{SEED}-{k}")
@@ -14,7 +15,12 @@ def build_case(k):
     tables["locations"] = net["locations"]
     tables["roads"] = net["roads"]
     tables["waves"] = net["waves"]
-    info = {"targets": net["targets"], "V": net["V"], "E": net["E"]}
+    rad = gen_radio(k, rng, cid)
+    tables["radio_log"] = rad["radio_log"]
+    tables["radio_patterns"] = rad["radio_patterns"]
+    tables["radio_reports"] = rad["radio_reports"]
+    info = {"targets": net["targets"], "V": net["V"], "E": net["E"],
+            "edit_bound": rad["edit_bound"]}
     return tables, info
 
 def main(out="cases.xlsx"):
