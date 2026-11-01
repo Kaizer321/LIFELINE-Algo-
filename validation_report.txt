@@ -1,0 +1,322 @@
+VALIDATION REPORT (group seed 69)
+
+======================================================================
+PART 1: validator on cases.xlsx (all 50 cases)
+======================================================================
+69-00  PASS
+69-01  PASS
+69-02  PASS
+69-03  PASS
+69-04  PASS
+69-05  PASS
+69-06  PASS
+69-07  PASS
+69-08  PASS
+69-09  PASS
+69-10  PASS
+69-11  PASS
+69-12  PASS
+69-13  PASS
+69-14  PASS
+69-15  PASS
+69-16  PASS
+69-17  PASS
+69-18  PASS
+69-19  PASS
+69-20  PASS
+69-21  PASS
+69-22  PASS
+69-23  PASS
+69-24  PASS
+69-25  PASS
+69-26  PASS
+69-27  PASS
+69-28  PASS
+69-29  PASS
+69-30  PASS
+69-31  PASS
+69-32  PASS
+69-33  PASS
+69-34  PASS
+69-35  PASS
+69-36  PASS
+69-37  PASS
+69-38  PASS
+69-39  PASS
+69-40  PASS
+69-41  PASS
+69-42  PASS
+69-43  PASS
+69-44  PASS
+69-45  PASS
+69-46  PASS
+69-47  PASS
+69-48  PASS
+69-49  PASS
+
+RESULT: PASS  (50/50 cases pass, 0 global problems)
+
+======================================================================
+PART 2: valid test cases
+======================================================================
+valid_69-02.xlsx: PASS
+valid_69-22.xlsx: PASS
+
+======================================================================
+PART 3: broken copies
+======================================================================
+
+Base case 69-02: 28 broken copies, 28 rejected
+  69-02__bad_header.xlsx
+    defect : a column header renamed
+    result : REJECTED (expected V1)
+      V1: sheet crates: header ['case_id', 'crate_id', 'cat', 'weight_kg', 'value', 'expiry', 'serial'] != ['case_id', 'crate_id', 'cat', 'weight', 'value',
+      V2: crate count = 0, outside 8..20
+      V2: capacity 74 not within 10%..70% of total weight 0
+  69-02__extra_sheet.xlsx
+    defect : an extra sheet added
+    result : REJECTED (expected V1)
+      V1: sheets are ['cases', 'crates', 'locations', 'roads', 'waves', 'radio_log', 'radio_patterns', 'radio_reports', 'windows', 'incidents', 'sites', 'to
+  69-02__float_cell.xlsx
+    defect : a float in an integer column
+    result : REJECTED (expected V1)
+      V1: sheet crates row 2: weight=7.5 has the wrong type or format
+      V3: crate_id values are not consecutive from 1
+      V5: claim cargo_opt = 535, recomputed 508
+  69-02__text_number.xlsx
+    defect : a number stored as text
+    result : REJECTED (expected V1)
+      V1: sheet crates row 2: value='55' has the wrong type or format
+      V3: crate_id values are not consecutive from 1
+      V5: claim cargo_opt = 535, recomputed 508
+  69-02__empty_row.xlsx
+    defect : an empty row inside a sheet
+    result : REJECTED (expected V1)
+      V1: sheet crates row 3: empty row
+  69-02__unsorted.xlsx
+    defect : two crate rows out of order
+    result : REJECTED (expected V1)
+      V1: sheet crates row 3: rows not sorted by case_id then crate_id
+      V3: crate_id values are not consecutive from 1
+  69-02__wrong_tier.xlsx
+    defect : wrong tier in the cases row
+    result : REJECTED (expected V1)
+      V1: tier M should be S
+  69-02__no_case_row.xlsx
+    defect : the cases row removed
+    result : REJECTED (expected V1)
+      V1: case_id 69-02 appears in a sheet but not in cases
+      V1: 0 rows in cases sheet for this case
+  69-02__weight_zero.xlsx
+    defect : a crate weight of 0
+    result : REJECTED (expected V2)
+      V2: crate weight outside 1..20
+      V1: v_crates could not run (ZeroDivisionError: Fraction(89, 0))
+      V1: v_claims could not run (ZeroDivisionError: Fraction(89, 0))
+  69-02__dup_serial.xlsx
+    defect : two crates with the same serial
+    result : REJECTED (expected V2)
+      V2: serials are not distinct 8-digit numbers
+  69-02__capacity_high.xlsx
+    defect : capacity equals total weight
+    result : REJECTED (expected V2)
+      V2: capacity 186 not within 10%..70% of total weight 186
+      V5: claim cargo_opt = 535, recomputed 781
+  69-02__bad_penalty.xlsx
+    defect : an invalid location penalty
+    result : REJECTED (expected V2)
+      V2: location penalty not in {0, 1, 2, 4, 6}
+  69-02__window_flat.xlsx
+    defect : a window with start equal to finish
+    result : REJECTED (expected V2)
+      V2: window 1 is out of range
+      V1: v_claims could not run (IndexError: list index out of range)
+  69-02__ticks_decrease.xlsx
+    defect : alarm ticks that decrease
+    result : REJECTED (expected V2)
+      V2: ticks must start at 0 and never decrease
+  69-02__hq_wrong.xlsx
+    defect : location 0 is not a depot
+    result : REJECTED (expected V3)
+      V3: location 0 must be type D with penalty 0
+  69-02__road_missing_end.xlsx
+    defect : a road endpoint does not exist
+    result : REJECTED (expected V3)
+      V3: road 0: invalid endpoints (0, 12)
+      V1: v_network could not run (IndexError: list index out of range)
+      V1: v_signature could not run (AttributeError: 'Ctx' object has no attribute 'waves')
+  69-02__road_repeat.xlsx
+    defect : the same road pair listed twice
+    result : REJECTED (expected V3)
+      V3: road 1: repeated pair (0, 1)
+  69-02__waves_overlap.xlsx
+    defect : one road in two waves
+    result : REJECTED (expected V4)
+      V4: waves are not disjoint
+  69-02__pattern_count.xlsx
+    defect : a radio pattern count is wrong
+    result : REJECTED (expected V5)
+      V5: pattern 0 count or symbols invalid
+  69-02__bad_symbol.xlsx
+    defect : a lowercase radio symbol
+    result : REJECTED (expected V5)
+      V5: log part 1 is invalid
+  69-02__edit_bound_low.xlsx
+    defect : edit_bound below the true distance
+    result : REJECTED (expected V5)
+      V5: edit_bound 0, true distance 2
+  69-02__claim_wrong.xlsx
+    defect : a Tier S claim is wrong
+    result : REJECTED (expected V5)
+      V5: claim cargo_opt = 536, recomputed 535
+  69-02__tour_dup.xlsx
+    defect : a site is visited twice
+    result : REJECTED (expected V6)
+      V6: tour is not a permutation starting at site 0
+  69-02__tour_length.xlsx
+    defect : tour_length is wrong
+    result : REJECTED (expected V6)
+      V6: tour_length does not match the closed tour
+  69-02__cover_missing.xlsx
+    defect : a node is removed from the sensor cover
+    result : REJECTED (expected V6)
+      V6: sensor cover size is invalid
+      V6: planted cover misses an edge
+  69-02__safety_broken.xlsx
+    defect : a planted safety rule is broken
+    result : REJECTED (expected V6)
+      V6: planted assignment breaks rule 1
+      V6: planted assignment breaks rule 27
+      V6: planted assignment breaks rule 64
+  69-02__ration_sum.xlsx
+    defect : planted rations no longer sum to target
+    result : REJECTED (expected V6)
+      V6: planted rations do not match rations_target
+  69-02__two_waves.xlsx
+    defect : only two waves remain
+    result : REJECTED (expected V7)
+      V7: study 3 wave count
+
+Base case 69-22: 27 broken copies, 27 rejected
+  69-22__bad_header.xlsx
+    defect : a column header renamed
+    result : REJECTED (expected V1)
+      V1: sheet crates: header ['case_id', 'crate_id', 'cat', 'weight_kg', 'value', 'expiry', 'serial'] != ['case_id', 'crate_id', 'cat', 'weight', 'value',
+      V2: crate count = 0, outside 40..200
+      V2: capacity 343 not within 10%..70% of total weight 0
+  69-22__extra_sheet.xlsx
+    defect : an extra sheet added
+    result : REJECTED (expected V1)
+      V1: sheets are ['cases', 'crates', 'locations', 'roads', 'waves', 'radio_log', 'radio_patterns', 'radio_reports', 'windows', 'incidents', 'sites', 'to
+  69-22__float_cell.xlsx
+    defect : a float in an integer column
+    result : REJECTED (expected V1)
+      V1: sheet crates row 2: weight=7.5 has the wrong type or format
+      V3: crate_id values are not consecutive from 1
+  69-22__text_number.xlsx
+    defect : a number stored as text
+    result : REJECTED (expected V1)
+      V1: sheet crates row 2: value='55' has the wrong type or format
+      V3: crate_id values are not consecutive from 1
+  69-22__empty_row.xlsx
+    defect : an empty row inside a sheet
+    result : REJECTED (expected V1)
+      V1: sheet crates row 3: empty row
+  69-22__unsorted.xlsx
+    defect : two crate rows out of order
+    result : REJECTED (expected V1)
+      V1: sheet crates row 3: rows not sorted by case_id then crate_id
+      V3: crate_id values are not consecutive from 1
+  69-22__wrong_tier.xlsx
+    defect : wrong tier in the cases row
+    result : REJECTED (expected V1)
+      V1: tier S should be M
+  69-22__no_case_row.xlsx
+    defect : the cases row removed
+    result : REJECTED (expected V1)
+      V1: case_id 69-22 appears in a sheet but not in cases
+      V1: 0 rows in cases sheet for this case
+  69-22__weight_zero.xlsx
+    defect : a crate weight of 0
+    result : REJECTED (expected V2)
+      V2: crate weight outside 1..20
+  69-22__dup_serial.xlsx
+    defect : two crates with the same serial
+    result : REJECTED (expected V2)
+      V2: serials are not distinct 8-digit numbers
+  69-22__capacity_high.xlsx
+    defect : capacity equals total weight
+    result : REJECTED (expected V2)
+      V2: capacity 539 not within 10%..70% of total weight 539
+  69-22__bad_penalty.xlsx
+    defect : an invalid location penalty
+    result : REJECTED (expected V2)
+      V2: location penalty not in {0, 1, 2, 4, 6}
+  69-22__window_flat.xlsx
+    defect : a window with start equal to finish
+    result : REJECTED (expected V2)
+      V2: window 1 is out of range
+  69-22__ticks_decrease.xlsx
+    defect : alarm ticks that decrease
+    result : REJECTED (expected V2)
+      V2: ticks must start at 0 and never decrease
+  69-22__hq_wrong.xlsx
+    defect : location 0 is not a depot
+    result : REJECTED (expected V3)
+      V3: location 0 must be type D with penalty 0
+  69-22__road_missing_end.xlsx
+    defect : a road endpoint does not exist
+    result : REJECTED (expected V3)
+      V3: road 0: invalid endpoints (55, 80)
+      V1: v_network could not run (IndexError: list index out of range)
+      V1: v_signature could not run (AttributeError: 'Ctx' object has no attribute 'waves')
+  69-22__road_repeat.xlsx
+    defect : the same road pair listed twice
+    result : REJECTED (expected V3)
+      V3: road 1: repeated pair (55, 56)
+      V4: network is not connected before closures
+  69-22__waves_overlap.xlsx
+    defect : one road in two waves
+    result : REJECTED (expected V4)
+      V4: waves are not disjoint
+  69-22__pattern_count.xlsx
+    defect : a radio pattern count is wrong
+    result : REJECTED (expected V5)
+      V5: pattern 0 count or symbols invalid
+  69-22__bad_symbol.xlsx
+    defect : a lowercase radio symbol
+    result : REJECTED (expected V5)
+      V5: log part 1 is invalid
+  69-22__edit_bound_low.xlsx
+    defect : edit_bound below the true distance
+    result : REJECTED (expected V5)
+      V5: edit_bound 0, true distance 7
+  69-22__tour_dup.xlsx
+    defect : a site is visited twice
+    result : REJECTED (expected V6)
+      V6: tour is not a permutation starting at site 0
+  69-22__tour_length.xlsx
+    defect : tour_length is wrong
+    result : REJECTED (expected V6)
+      V6: tour_length does not match the closed tour
+  69-22__cover_missing.xlsx
+    defect : a node is removed from the sensor cover
+    result : REJECTED (expected V6)
+      V6: sensor cover size is invalid
+      V6: planted cover misses an edge
+  69-22__safety_broken.xlsx
+    defect : a planted safety rule is broken
+    result : REJECTED (expected V6)
+      V6: planted assignment breaks rule 1
+      V6: planted assignment breaks rule 50
+      V6: planted assignment breaks rule 95
+  69-22__ration_sum.xlsx
+    defect : planted rations no longer sum to target
+    result : REJECTED (expected V6)
+      V6: planted rations do not match rations_target
+  69-22__two_waves.xlsx
+    defect : only two waves remain
+    result : REJECTED (expected V7)
+      V7: study 5 wave count
+
+SUMMARY: 55/55 broken copies rejected; cases.xlsx PASS

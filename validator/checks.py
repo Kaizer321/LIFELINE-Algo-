@@ -299,6 +299,10 @@ def v_windows(c):
     windows = c.rows("windows")
     c.inrange("windows", len(windows), "window count")
     c.ids(windows, "window_id", 1, "window_id values")
+    for window in windows:
+        start, finish, value = window["start"], window["finish"], window["value"]
+        if not (0 <= start < finish <= 1440 and 5 <= finish - start <= 480 and 1 <= value <= 100):
+            c.err("V2", f"window {window['window_id']} is out of range")
     starts = Counter(window["start"] for window in windows)
     if len(windows) >= 8 and sum(starts[window["finish"]] for window in windows) < 2:
         c.err("V2", "fewer than two touching window pairs")
