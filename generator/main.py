@@ -14,6 +14,7 @@ from safety import gen_safety
 from rations import gen_rations
 from traps import (trap_crates_46, trap_crates_47,
                    trap_network_48, trap_radio_49)
+from caserow import finalize_case
 
 def build_case(k):
     rng = random.Random(f"{SEED}-{k}")
@@ -57,6 +58,11 @@ def build_case(k):
             "sensor_nodes": se["sensor_nodes"], "sensor_k": se["sensor_k"],
             "safety_vars": sf["safety_vars"], "rations_target": ra["rations_target"],
             "capacity": capacity}
+    row, claims, flags = finalize_case(k, rng, cid, tables, info)
+    tables["cases"] = [row]
+    if claims:
+        tables["claims"] = [claims]
+    info.update(flags)
     return tables, info
 
 def main(out="cases.xlsx"):
@@ -66,6 +72,10 @@ def main(out="cases.xlsx"):
         t, infos[k] = build_case(k)
         for s in SHEETS:
             all_tables[s].extend(t[s])
+    g = sum(infos[k]["greedy_fail"] for k in range(20))
+    r = sum(infos[k]["route_trap"] for k in range(20))
+    print(f"tier S: greedy fails in {g}/20, fewest-roads trap in {r}/20")
+    assert g >= 5 and r >= 5, "variety rules 1 and 2 not met"
     wb = Workbook()
     wb.remove(wb.active)
     for s in SHEETS:
