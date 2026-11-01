@@ -5,6 +5,8 @@ from config import SEED, SHEETS, HEADERS, case_id
 from crates import gen_crates
 from network import gen_network
 from radio import gen_radio
+from windows import gen_windows
+from incidents import gen_incidents
 
 def build_case(k):
     rng = random.Random(f"{SEED}-{k}")
@@ -19,6 +21,8 @@ def build_case(k):
     tables["radio_log"] = rad["radio_log"]
     tables["radio_patterns"] = rad["radio_patterns"]
     tables["radio_reports"] = rad["radio_reports"]
+    tables["windows"] = gen_windows(k, rng, cid)
+    tables["incidents"] = gen_incidents(k, rng, cid)
     info = {"targets": net["targets"], "V": net["V"], "E": net["E"],
             "edit_bound": rad["edit_bound"]}
     return tables, info
