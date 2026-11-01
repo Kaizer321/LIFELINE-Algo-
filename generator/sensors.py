@@ -1,11 +1,9 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from config import RANGES, tier_of
+from config import RANGES, eff_tier
 
 def gen_sensors(k, rng, cid):
-    tier = tier_of(k)
-    if tier == "X":
-        raise NotImplementedError("trap cases 46-49 handled separately")
+    tier = eff_tier(k)
     N = rng.randint(*RANGES["sensors"][tier])
     kk = rng.randint(max(2, N // 4), N // 2)
 

@@ -1,14 +1,12 @@
 import sys, os, math
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from config import RANGES, tier_of
+from config import RANGES, eff_tier
 
 # variety rule 3 buckets (rules per switch) for cases 20..45
 BUCKETS = [(2.5, 3.4), (3.6, 4.7), (4.9, 5.9)]
 
 def gen_safety(k, rng, cid):
-    tier = tier_of(k)
-    if tier == "X":
-        raise NotImplementedError("trap cases 46-49 handled separately")
+    tier = eff_tier(k)
     nv = rng.randint(*RANGES["safety"][tier])
 
     lo, hi = (2.0, 6.0) if tier == "S" else BUCKETS[(k - 20) % 3]

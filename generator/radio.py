@@ -1,7 +1,7 @@
 import sys, os, math
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from collections import Counter
-from config import RANGES, ALPHABET, tier_of, scenario_of
+from config import RANGES, ALPHABET, eff_tier, scenario_of
 
 LENS = [2, 4, 8, 12, 20, 40]
 WORDCH = ALPHABET[:36]            # A-Z and 0-9
@@ -102,9 +102,7 @@ def make_reports(rng, tier):
             return a, b
 
 def gen_radio(k, rng, cid):
-    tier = tier_of(k)
-    if tier == "X":
-        raise NotImplementedError("trap cases 46-49 handled separately")
+    tier = eff_tier(k)
     sc = scenario_of(k)
     lo, hi = RANGES["radio"][tier]
     n = rng.randint(lo, hi)

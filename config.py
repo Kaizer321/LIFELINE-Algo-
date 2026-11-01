@@ -45,6 +45,10 @@ def tier_of(k):
     if k < 46: return "L"
     return "X"
 
+def eff_tier(k):
+    t = tier_of(k)
+    return "L" if t == "X" else t
+
 def scenario_of(k):
     return (k % 6) + 1
 

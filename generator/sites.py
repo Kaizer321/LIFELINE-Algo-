@@ -1,6 +1,6 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from config import RANGES, tier_of
+from config import RANGES, eff_tier
 
 def dist(a, b):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
@@ -44,9 +44,7 @@ def two_opt(pts, tour, max_passes=30):
     return t
 
 def gen_sites(k, rng, cid):
-    tier = tier_of(k)
-    if tier == "X":
-        raise NotImplementedError("trap cases 46-49 handled separately")
+    tier = eff_tier(k)
     lo, hi = RANGES["sites"][tier]
     n = rng.randint(lo, hi)
 

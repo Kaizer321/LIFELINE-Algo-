@@ -2,7 +2,7 @@ import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from bisect import bisect_right
 from collections import Counter
-from config import RANGES, tier_of, scenario_of
+from config import RANGES, eff_tier, scenario_of
 
 def avg_overlap(ws):
     """Average number of other windows each window strictly overlaps."""
@@ -29,9 +29,7 @@ def _once(rng, n, dmax, span):
     return ws
 
 def gen_windows(k, rng, cid):
-    tier = tier_of(k)
-    if tier == "X":
-        raise NotImplementedError("trap cases 46-49 handled separately")
+    tier = eff_tier(k)
     sc = scenario_of(k)
     lo, hi = RANGES["windows"][tier]
     n = rng.randint(lo, hi)

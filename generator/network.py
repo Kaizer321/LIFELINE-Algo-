@@ -1,7 +1,7 @@
 import sys, os, math
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from collections import deque
-from config import RANGES, tier_of, scenario_of, PENALTIES
+from config import RANGES, eff_tier, scenario_of, PENALTIES
 
 # allowed average degree (inclusive) per case study
 DEG = {1: (2.2, 3.2), 2: (2.0, 2.6), 3: (2.2, 3.0),
@@ -103,9 +103,7 @@ def _make_waves(rng, E, w, must_first=None):
     return waves
 
 def gen_network(k, rng, cid):
-    tier = tier_of(k)
-    if tier == "X":
-        raise NotImplementedError("trap cases 46-49 handled separately")
+    tier = eff_tier(k)
     sc = scenario_of(k)
     lo, hi = RANGES["locations"][tier]
     V = rng.randint(lo, hi)

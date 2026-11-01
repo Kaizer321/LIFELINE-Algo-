@@ -1,13 +1,11 @@
 import sys, os, math
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from config import RANGES, tier_of, scenario_of
+from config import RANGES, eff_tier, scenario_of
 
 SC2_WEIGHTS = [1, 1, 1, 1, 2, 3, 5, 6, 6, 6]     # priorities 1..10, mean about 7.3
 
 def gen_incidents(k, rng, cid):
-    tier = tier_of(k)
-    if tier == "X":
-        raise NotImplementedError("trap cases 46-49 handled separately")
+    tier = eff_tier(k)
     sc = scenario_of(k)
     lo, hi = RANGES["alarms"][tier]
     n = rng.randint(lo, hi)

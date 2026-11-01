@@ -12,17 +12,27 @@ from chains import gen_chains
 from sensors import gen_sensors
 from safety import gen_safety
 from rations import gen_rations
+from traps import (trap_crates_46, trap_crates_47,
+                   trap_network_48, trap_radio_49)
 
 def build_case(k):
     rng = random.Random(f"{SEED}-{k}")
     cid = case_id(k)
     tables = {s: [] for s in SHEETS}
-    tables["crates"] = gen_crates(k, rng, cid)
-    net = gen_network(k, rng, cid)
+    capacity = None
+    if k == 46:
+        crates = trap_crates_46(rng, cid)
+    elif k == 47:
+        crates, capacity = trap_crates_47(rng, cid)
+    else:
+        crates = gen_crates(k, rng, cid)
+    tables["crates"] = crates
+
+    net = trap_network_48(rng, cid) if k == 48 else gen_network(k, rng, cid)
     tables["locations"] = net["locations"]
     tables["roads"] = net["roads"]
     tables["waves"] = net["waves"]
-    rad = gen_radio(k, rng, cid)
+    rad = trap_radio_49(rng, cid) if k == 49 else gen_radio(k, rng, cid)
     tables["radio_log"] = rad["radio_log"]
     tables["radio_patterns"] = rad["radio_patterns"]
     tables["radio_reports"] = rad["radio_reports"]
@@ -45,13 +55,14 @@ def build_case(k):
     info = {"targets": net["targets"], "V": net["V"], "E": net["E"],
             "edit_bound": rad["edit_bound"], "tour_length": st["tour_length"],
             "sensor_nodes": se["sensor_nodes"], "sensor_k": se["sensor_k"],
-            "safety_vars": sf["safety_vars"], "rations_target": ra["rations_target"]}
+            "safety_vars": sf["safety_vars"], "rations_target": ra["rations_target"],
+            "capacity": capacity}
     return tables, info
 
 def main(out="cases.xlsx"):
     all_tables = {s: [] for s in SHEETS}
     infos = {}
-    for k in range(46):                      # traps 46-49 come later
+    for k in range(50):
         t, infos[k] = build_case(k)
         for s in SHEETS:
             all_tables[s].extend(t[s])
