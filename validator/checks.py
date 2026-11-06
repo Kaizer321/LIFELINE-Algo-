@@ -3,8 +3,9 @@ from collections import Counter, deque
 from fractions import Fraction
 from bisect import bisect_right
 from itertools import combinations
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import RANGES, ALPHABET, PENALTIES, tier_of, scenario_of
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 AL = set(ALPHABET)
 LENS = [2, 4, 8, 12, 20, 40]

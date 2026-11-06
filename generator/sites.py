@@ -1,6 +1,7 @@
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import RANGES, eff_tier
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 def dist(a, b):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])

@@ -1,6 +1,7 @@
 import sys, os, math
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from config import RANGES, eff_tier
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 # variety rule 3 buckets (rules per switch) for cases 20..45
 BUCKETS = [(2.5, 3.4), (3.6, 4.7), (4.9, 5.9)]
